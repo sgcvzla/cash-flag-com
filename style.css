@@ -1,0 +1,231 @@
+  * {
+    padding: 0;
+    margin: 0;
+    --columnas: 1;
+    --filas: 1;
+    --linea: 0.5vw;
+  }
+
+  .container {
+    /* width: 99vw; */
+    margin: auto;
+    /* padding: 0.5vw 0.5vh; */
+  }
+
+  .contenido {
+    padding: 0.5em;
+    height: 97.5vh;
+    /*background: cyan;*/
+    display: grid;
+    grid-template-areas:  "my-logo my-header my-user"
+                          "my-menu my-menu my-menu" 
+                          "my-cuerpo my-cuerpo my-cuerpo"
+                          "my-pie my-pie my-pie";
+    grid-template-columns: 12em 1fr 12em;
+    grid-template-rows: 7em 1.5em 1fr 2em;
+    /* grid-gap: var(--linea); */
+    grid-auto-flow: row dense;
+  }
+
+  .logo {
+    height: 7em;
+    width: 12em;
+    grid-area: my-logo;
+    justify-self: auto;
+    align-self: auto;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    /* text-align: center; */
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .imglogo {
+    height: 7em;
+    width: auto;
+  }
+
+  .cabecera {
+    height: 7em;
+    width: 1fr;
+    grid-area: my-header;
+    /*background: orange;*/
+    justify-self: stretch;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    /* color: red; */
+  }
+
+  .usuario {
+    height: 7em;
+    width: 12em;
+    grid-area: my-user;
+    justify-self: auto;
+    align-self: auto;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    /* text-align: center; */
+}
+
+.boton {
+  background-color: lightgray;
+  border: none;
+  border-radius: 12px;
+  color: black;
+  padding: 10px 18px;
+  text-align: center;
+  text-decoration: none;
+  /* display: inline-block; */
+  /* font-size: 16px; */
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+  .menu {
+    /* padding-top: 1em; */
+    width: 100%;
+    height: 1.5em;
+    grid-area: my-menu;
+    /*background: blue;*/
+    justify-self: center;
+    align-self: stretch;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cuerpo {
+    width: 100%;
+    height: 100%;
+    grid-area: my-cuerpo;
+    /*background: white;*/
+    justify-self: stretch;
+    align-self: stretch;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .frame {
+    width: 77%;
+    height: 95%;
+  }
+
+  .barra-lateral {
+    width: 12em;
+    grid-area: my-aside;
+    /*background: yellow;*/
+/*     justify-self: end;
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center; */
+  }
+
+  .pie {
+    padding-right: 0.5em;
+    height: 2em;
+    grid-area: my-pie;
+    background: lightgray;
+    align-self: end;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+
+         .horizontal-menu {
+            width: 90%;
+            margin: auto;
+            font-family: arial;
+            /* text-transform: uppercase; */
+            display: contents;
+         }
+
+         .horizontal-menu a {
+            /*background-color: orange;*/
+            color: black;
+            display: block;
+            width: auto;
+            padding: 10px;
+            margin-bottom: 5px;
+            text-decoration: none;
+         }
+
+         .horizontal-menu a:hover {
+            background-color: lightgray;
+         }
+
+         .horizontal-menu a.active {
+            background-color: grey;
+            color: white;
+         }
+
+@media only screen and (max-width: 600px) {
+  .contenido {
+    padding: 0.5em;
+    grid-template-areas:  "my-logo my-user"
+                          "my-header my-header"
+                          "my-menu my-menu"
+                          "my-cuerpo my-cuerpo"
+                          "my-pie my-pie";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 3.5em 4em 4.5em 1fr 2em;
+    grid-auto-flow: row dense;
+  }
+
+  .logo {
+    height: 3.5em;
+    font-size: 80%;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+ }
+
+  .imglogo {
+    height: 4em;
+  }
+
+  .cabecera {
+    height: 4em;
+  }
+
+  .usuario {
+    height: 3.5em;
+    font-size: 80%;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+  .menu {
+    width: 99%;
+    height: 4.5em;
+    font-size: 70%;
+    flex-flow: wrap;
+  }
+
+  .horizontal-menu a {
+    padding: 5px;
+  }
+
+  .frame {
+    width: 95%;
+    height: 95%;
+  }
+
+
+}
