@@ -1,0 +1,62 @@
+{"index": {
+		"title":[
+			"Cash-Flag - by SGC Consultores C.A.",
+			"Cash-Flag - by SGC Consultores C.A."
+		],
+		"header":{
+			"div_logo":[
+				"Contacto:",
+				"Contact:"
+			],
+			"a_ingreso":[
+				"Ingresar a la aplicación",
+				"Login to application"
+			]
+		},
+		"menu":{
+			"inicio":[
+				"¿Qué es Cash-Flag?",
+				"What is Cash-Flag?"
+			],
+			"ventajas":[
+				"Ventajas de usar Cash-Flag",
+				"Cash-Flag's advantages"
+			],
+			"blockchain":[
+				"Tecnología Blockchain",
+				"Blockchain technology"
+			],
+			"productos":[
+				"Productos y/o Servicios",
+				"Products and/or Services"
+			],
+			"beneficios":[
+				"Beneficios",
+				"Bennefits"
+			],
+			"contacto":[
+				"Contáctenos",
+				"Contact us"
+			],
+			"ingreso":[
+				"Ingresar",
+				"Login"
+			]
+		},
+		"cuerpo":{
+			"language":   ["_es","_en"],
+			"inicio":     ["_es","_en"],
+			"ventajas":   ["_es","_en"],
+			"blockchain": ["_es","_en"],
+			"productos":  ["_es","_en"],
+			"beneficios": ["_es","_en"],
+			"contacto":   ["_es","_en"]
+		},
+		"pie":{
+			"chat":[
+				"Chatea con nosotros",
+				"Chat with us"
+			]
+		}
+	}
+}
