@@ -58,6 +58,12 @@ function refresca(id,enlace) {
 
     console.log("./html/"+enlace+suffix.language[lang]+".html")
 
-    document.getElementById("marco").src = "./html/"+enlace+suffix.language[lang]+".html";
+    if(enlace=="contacto") {
+        document.getElementById("marco").src = "./contacto2/"+enlace+suffix.language[lang]+".html";;
+     } else {
+        document.getElementById("marco").src = "./html/"+enlace+suffix.language[lang]+".html";
+     }
+  
+    // document.getElementById("marco").src = "./html/"+enlace+suffix.language[lang]+".html";
     // document.getElementById("marco").reload();
 }

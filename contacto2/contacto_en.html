@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, scalable=yes">
+	<title>SGC Consultores - Formulario de contacto</title>
+	<link rel="stylesheet" href="">
+	<style>
+		* {
+			margin: 0;
+			padding:0;
+		}
+		.logo {
+			margin-top: 10px;
+			height: 10em;
+			width: 12em;
+			text-align: center;
+	/*		display: flex;
+			align-items: center;
+			justify-content: center;
+	*/	}
+		img {
+			width: 100%;
+			height: auto;
+			object-fit: contain;
+		}
+		#container {
+			padding: 1em;
+			margin: 10px auto;
+			width: 580px;
+			/* min-width: 400px; */
+			background: lightgray;
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+		}
+		.cmps {
+			padding: 0.5em 0 0 0;
+			display: flex;
+			flex-direction: row;
+		}
+		.etiq {
+			width: 140px;
+			height: 20px;
+			justify-content: middle;
+		}
+		.campo {
+			width: 160px;
+			height: 20px;
+		}
+		.selec {
+			height: 20px;
+		}
+		.btns {
+			padding-top: 0.5em;
+			text-align: right;
+		}
+		@media only screen and (max-width: 768px) {
+			* {
+				width: 100%;
+			}
+			#container {
+				width: 90%;
+			}
+			.logo {
+				padding-bottom: 0.5em;
+			}
+			h3 {
+				padding-bottom: 0.5em;
+			}
+			.etiq {
+				justify-content: left;
+				width: 100%;
+			}
+			.cmps {
+				padding: 0 0 2em 0;
+				flex-direction: column;
+			}
+			.campo {
+				width: 100%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<h3 align="center">Contact</h3>
+		<div class="cmps">
+			<span class="etiq">Name</span>
+			<input id="cliente" class="campo" type="text" size="50" maxlength="100" />
+		</div>
+
+        <input id="tipo" type="hidden" value="nuevo" />
+        <input id="impacto" type="hidden" value="bajo" />
+
+        <div class="cmps">
+			<span class="etiq">Details:</span>
+			<textarea id="detalles" rows="5" cols="53" maxlength="250"></textarea>
+			<!-- <textarea id="detalles" rows="5" style="width: 62.5%;" maxlength="250"></textarea> -->
+		</div>
+		<div class="cmps">
+			<span class="etiq">Contact e-mail:</span>
+			<input id="email" class="campo" type="email" size="50" maxlength="100" title="You must introduce a valid format (include @)" />
+		</div>
+		<div class="cmps">
+			<span class="etiq">Contact phone:</span>
+			<input id="telefono" class="campo" type="text" size="50" maxlength="100" title="valid format (+ country-code number)" />
+		</div>
+		<div class="btns">
+			<button id="enviar" onclick="fenviar()" style="width: 7em;">Send</button>
+			<button id="limpiar" onclick="flimpiar()" style="width: 7em;">Clear</button>
+		</div>
+	</div>
+<script>
+function fenviar() {
+	var datos = new FormData();
+	datos.append("cliente", document.getElementById("cliente").value);
+	datos.append("sistema", "Cash-Flag");
+	datos.append("modulo", "Nuevo contacto");
+	datos.append("tipo", document.getElementById("tipo").value);
+	datos.append("detalles", document.getElementById("detalles").value);
+	datos.append("impacto", document.getElementById("impacto").value);
+	datos.append("nombre", document.getElementById("cliente").value);
+	datos.append("email", document.getElementById("email").value);
+	datos.append("telefono", document.getElementById("telefono").value);
+
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			respuesta = JSON.parse(this.responseText);
+			if (respuesta.exito=='SI') {
+				mensaje = "Form sent successfully, \nWe contact you as soon as posible";
+				alert(mensaje);
+				flimpiar();
+			} else {
+				alert("Send failed, try writing us at +17144152690 on Whatsapp");
+			}
+		}
+	};
+	xmlhttp.open("POST", "registraticket.php", true);
+	xmlhttp.send(datos);
+}
+
+function flimpiar() {
+	document.getElementById('cliente').value = '';
+	document.getElementById('tipo').value = 'nuevo';
+	document.getElementById('detalles').value = '';
+	document.getElementById('impacto').value = 'bajo';
+	document.getElementById('nombre').value = '';
+	document.getElementById('email').value = '';
+	document.getElementById('telefono').value = '';
+}
+</script>
+</body>
+</html>
