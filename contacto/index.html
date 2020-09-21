@@ -13,7 +13,7 @@
 	}
 	.logo {
 		margin-top: 10px;
-		height: 10em;
+		/* height: 10em; */
 		width: 12em;
 		text-align: center;
 /*		display: flex;
@@ -28,8 +28,9 @@
 	#container {
 		padding: 1em;
 		margin: auto;
-		width: 38%;
-		min-width: 400px;
+		width: 524px;
+		/* width: 38%; */
+		/* min-width: 400px; */
 		background: lightgray;
 		display: flex;
 		flex-direction: column;
@@ -41,7 +42,8 @@
 		flex-direction: row;
 	}
 	.etiq {
-		width: 37.5%;
+		/* width: 37.5%; */
+		width: 140px;
 		height: 20px;
 		justify-content: middle;
 	}
@@ -55,27 +57,29 @@
 		padding-top: 0.5em;
 		text-align: right;
 	}
-	@media only screen and (max-width: 1260px) {
+	@media only screen and (max-width: 768px) {
+		* {
+			width: 100%;
+		}
+		#container {
+			width: 90%;
+		}
 		.logo {
 			padding-bottom: 0.5em;
 		}
 		h3 {
 			padding-bottom: 0.5em;
 		}
-		.cmps {
-			padding: 0 0 2.25em 0;
-		}
-	}
-	@media only screen and (max-width: 768px) {
-		* {
+		.etiq {
+			justify-content: left;
 			width: 100%;
 		}
 		.cmps {
+			padding: 0 0 2em 0;
 			flex-direction: column;
 		}
-		.etiq {
-			width: 50%;
-			justify-content: left;
+		.campo {
+			width: 100%;
 		}
 	}
 </style>
@@ -98,7 +102,7 @@
 
         <div class="cmps">
 			<span class="etiq">Detalles:</span>
-			<textarea id="detalles" rows="5" style="width: 62.5%;" maxlength="250"></textarea>
+			<textarea id="detalles" rows="5" cols="52" maxlength="250"></textarea>
 		</div>
 		<div class="cmps">
 			<span class="etiq">correo electrónico:</span>
