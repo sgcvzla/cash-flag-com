@@ -20,17 +20,17 @@ function etiquetas(lang) {
     aindex = localStorage.getItem('index');    
     index  = JSON.parse(aindex);
     console.log(index);
-    document.title                                  = index.title[lang];
-    document.getElementById("div_logo").innerHTML   = index.header.div_logo[lang];
-    document.getElementById("a_ingreso").innerHTML  = index.header.a_ingreso[lang];
-    document.getElementById("inicio").innerHTML     = index.menu.inicio[lang];
-    document.getElementById("ventajas").innerHTML   = index.menu.ventajas[lang];
-    document.getElementById("blockchain").innerHTML = index.menu.blockchain[lang];
-    document.getElementById("productos").innerHTML  = index.menu.productos[lang];
-    document.getElementById("beneficios").innerHTML = index.menu.beneficios[lang];
-    document.getElementById("contacto").innerHTML   = index.menu.contacto[lang];
-    // document.getElementById("ingreso").innerHTML    = index.menu.ingreso[lang];
-    document.getElementById("chat").innerHTML       = index.pie.chat[lang];
+    document.title                                   = index.title[lang];
+    document.getElementById("div_logo").innerHTML    = index.header.div_logo[lang];
+    document.getElementById("a_ingreso").innerHTML   = index.header.a_ingreso[lang];
+    document.getElementById("inicio").innerHTML      = index.menu.inicio[lang];
+    document.getElementById("ventajas").innerHTML    = index.menu.ventajas[lang];
+    document.getElementById("blockchain").innerHTML  = index.menu.blockchain[lang];
+    document.getElementById("productos").innerHTML   = index.menu.productos[lang];
+    document.getElementById("beneficios").innerHTML  = index.menu.beneficios[lang];
+    document.getElementById("contacto").innerHTML    = index.menu.contacto[lang];
+    document.getElementById("afiliacion").innerHTML = index.menu.afiliacion[lang];
+    document.getElementById("chat").innerHTML        = index.pie.chat[lang];
 }
 
 function actualizaidioma(lang) {
