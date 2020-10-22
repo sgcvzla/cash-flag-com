@@ -44,8 +44,8 @@
 				</div>
 				<!-- Teléfono -->
 				<div id="div5" class="cmps" style="display: none;">
-					<span class="etiq">Teléfono:</span>
-					<input id="telefono" class="campo" type="text" size="50" maxlength="100" />
+					<span class="etiq">Tel. celular (pais+prefijo+número):</span>
+					<input id="telefono" class="campo" type="text" size="50" maxlength="12" pattern="[0-9]{12}" title="Sólo se permiten números" onchange="validanumero()" />
 				</div>
 				<div class="btns">
 					<button id="btnemail" onclick="buscasocio()" style="width: 10em;">Buscar</button>
@@ -181,6 +181,27 @@
 					};
 					xmlhttp.open("GET", "../php/buscasocios.php?email="+document.getElementById("email").value, true);
 					xmlhttp.send();
+				}
+			}
+
+			function validanumero(){
+				valor = document.getElementById("telefono").value;
+				lista = "0123456789";
+				if(valor.length<12){
+					alert("El campo teléfono debe contener 12 números\ny el fofrmato debe ser:\n- Código país (2 dígitos, ejemplo: 58)\n- Prefijo (4 dígitos, ejemplo 0414)\n- Número (7 dígitos, ejemplo 1234567)");
+					document.getElementById("telefono").focus();
+				} else {
+					let novalido = 0;
+					for (let i = 0; i < valor.length; i++) {
+						posicion = lista.indexOf(valor.substr(i,1));
+						if (posicion<0) {
+							novalido++;
+						}
+					}
+					if (novalido>0) {
+						alert("El campo teléfono debe contener sólo números\ny el fofrmato debe ser:\n- Código país (2 dígitos, ejemplo: 58)\n- Prefijo (4 dígitos, ejemplo 0414)\n- Número (7 dígitos, ejemplo 1234567)");
+						document.getElementById("telefono").focus();
+					}
 				}
 			}
 		</script>
