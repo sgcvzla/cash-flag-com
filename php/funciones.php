@@ -235,7 +235,6 @@ function generatransaccion_pdv($link, $database) {
     return $numero;
 }
 
-
 function generatarjetaAE($post, $link) {
     // Asignación de variables
     $nombres   = $post['nombres'];
@@ -323,4 +322,166 @@ function generatarjetaAE($post, $link) {
         }
     }
 }
+
+function generatarjetadolar($pos, $link){
+    // Asignación de variables
+    $nombres   = $post['nombres'];
+    $apellidos = $post['apellidos'];
+    $telefono  = $post['telefono'];
+    $email     = $post['email'];
+
+    $moneda = "dolar" ;
+    $monto = 1.00 ;
+
+    $montobs = 0.00;
+    $montodolares = $monto;
+    $montocripto = 0.00;
+
+    $tipotransaccion = '01';
+    $tasadolarbs = 1.00;
+    $tasadolarcripto = 1.00;
+    $idproveedor = 3;  // Cash-Flag
+    $tipopago = 'efectivo' ;
+    $origen = 'afiliacion' ;
+    $referencia = 'nuevosocio' ;
+
+    $nombreproveedor = "Cash-Flag";
+
+    // Buscar el id del socio (si existe)
+    $query = "select * from socios where email='".trim($post['email'])."'";
+    $result = mysqli_query($link, $query);
+    if ($row = mysqli_fetch_array($result)) {
+        $idsocio = $row["id"];
+    } else {
+        $idsocio = 0;
+    }
+
+    // Generar numero de tarjeta partiendo de los datos enviados
+    $cardnew = generaprepago($nombres,$apellidos,$telefono,$email,$nombreproveedor,$moneda,$link);
+    /*
+    El número de la tarjeta está compuesto por 10 caracteres en el orden que sigue:
+    AAGBBGCCDDGEEGFF -> AAGB BGCC DDGE EGFF
+    0123456789012345
+        x  x    x  x
+    */
+    $dcp = intval(substr($cardnew,2,1).substr($cardnew,5,1).substr($cardnew,10,1).substr($cardnew,13,1));
+
+    $card = $cardnew;
+    $saldoant = 0.00;
+    $saldo = ($tipopago == 'efectivo') ? $monto : 0.00 ;
+
+    // Fecha de compra
+    $fecha = date('Y-m-d');
+
+    // Fecha de vecnimiento (1 año)
+    $fechavencimiento = strtotime('+1 year', strtotime ($fecha));
+    $fechavencimiento = date('Y-m-d', $fechavencimiento);
+
+    $datetime1 = date_create($fecha);
+    $datetime2 = date_create($fechavencimiento);
+    $diferencia = date_diff($datetime1, $datetime2);
+
+    $validez = substr($fechavencimiento,5,2)."/".substr($fechavencimiento,0,4);
+
+    $status = 'Lista para usar';
+    $fechaconfirmacion = $fecha;
+    
+    // Encripta la card
+    $hash = hash("sha256",$card.$nombres.$apellidos.$telefono.$email.$monto.$idproveedor.$moneda);
+
+    $query = "INSERT INTO prepago_transacciones (idsocio, idproveedor, fecha, tipotransaccion, tipomoneda, montobs, montodolares, montocripto, tasadolarbs, tasadolarcripto, documento, origen, status, card) VALUES (".$idsocio.",".$idproveedor.",'".$fecha."','".$tipotransaccion."','".$moneda."',".$montobs.",".$montodolares.",".$montocripto.",".$tasadolarbs.",".$tasadolarcripto.",'".$referencia."','".$origen."','".$status."','".$card."')";
+    if ($result = mysqli_query($link,$query)) {
+		$quer0 = "INSERT INTO cards (card, tipo) VALUES ('".$card."','prepago')";
+		if ($resul0 = mysqli_query($link,$quer0)) {
+			$query = "INSERT INTO prepago (card, nombres, apellidos, telefono, email, saldo, saldoentransito, moneda, fechacompra, fechavencimiento, validez, status, id_socio, id_proveedor, hash, premium) VALUES ('".$card."','".$nombres."','".$apellidos."','".$telefono."','".$email."',".$monto.",0.00,'".$moneda."','".$fecha."','".$fechavencimiento."','".$validez."','".$status."',".$idsocio.",".$idproveedor.",'".$hash."',1)";
+			if ($result = mysqli_query($link,$query)) {
+				// Punto de venta
+				$tipo2 = '51'; 
+				// Insertar transacción confirmada
+				$quer2  = 'INSERT INTO pdv_transacciones (fecha, fechaconfirmacion, id_proveedor, id_socio, tipo, ';
+				$quer2 .= 'moneda, monto, instrumento, id_instrumento, documento, status, origen, token, pin, hashpin) ';
+                $quer2 .= 'VALUES ("'.$fecha.'","'.$fechaconfirmacion.'",'.$idproveedor.','.$idsocio.',"'.$tipo2.'", ';
+                $quer2 .= '"'.$moneda.'",'.$monto.',"prepago","'.$card.'","'.$referencia.'","'.$status.'", ';
+				$quer2 .= '"'.$origen.'","",0,"")';
+				$resul2 = mysqli_query($link,$quer2);
+				$querx = 'UPDATE _parametros SET dcp='.$dcp;
+				$resulx = mysqli_query($link,$querx);
+            }
+        }
+    }
+}
+
+function enviasms($telefono,$mensaje){
+    //parámetros de envío
+    $usuario="sgcvzla@gmail.com";
+    $clave="Ma24032008.";
+
+    $parametros="usuario=$usuario&clave=$clave&texto=$mensaje&telefonos=$telefono";
+
+    $url = "http://www.sistema.massivamovil.com/webservices/SendSms";
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST,true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $parametros);
+    $response = curl_exec($ch);
+
+    curl_close($ch);
+}
+
+function mensajebienvenida($reg) {
+	$correo = $reg["email"];
+
+	$mensaje = utf8_decode('Hola '.trim($reg["nombres"]).',<br/><br/>');
+	$mensaje .= utf8_decode('¡Gracias por querer formar parte de nuestra comunidad!<br/><br/>');
+
+	$mensaje .= utf8_decode('Queremos conocerte un poco más y ofrecerte premios, promociones o productos/servicios especialmente diseñados para ti, pero necesitamos que nos brindes alguna información que nos ayudará a prestarte un mejor servicio, innovar en nuestros premios y hacerte la vida mucho más fácil y gratificante, además desde ya comenzaras a ganar, luego de completar <a href="https://app.cash-flag.com/registro/index.html?idp='.$_POST['id_proveedor'].'&ids='.$reg["id"].'">este formulario</a> recibirás un premio de bienvenida.<br/><br/>');
+
+	$mensaje .= utf8_decode('<b>Te garantizamos que tu información será guardada celosamente y nunca será compartida con ningún tercero sin tu consentimiento y te aseguramos que siempre cumpliremos con las Leyes vigentes en lo relacionado al tratamiento de tus datos personales.</b><br/><br/>');
+
+	$mensaje .= utf8_decode('Nuestra comunidad está en permanente evolución y tú como un miembro muy importante puedes aportarnos ideas o sugerencias que la harán crecer, ten la certeza que serás escuchado(a) y tus sugerencias o comentarios serán repondidos en un lapso de tiempo razonable con mucho entusiasmo por resolver tus inquietudes, para nosotros será un placer atenderte por medio del email: <a href="mailto:info@cash-flag.com">info@cash-flag.com</a>.<br/><br/>');
+
+	$mensaje .= utf8_decode('Bienvenido!!!'.'<br/><br/>');
+	$mensaje .= utf8_decode('Cash-Flag'.'<br/><br/>');
+
+	$mensaje .= utf8_decode('<b>Nota:</b> Esta cuenta no es monitoreada, por favor no respondas este email, si deseas comunicarte con tu club escribe a: <b><a href="mailto:info@cash-flag.com">info@cash-flag.com</a></b>'.'<br/><br/>');
+
+	$asunto = utf8_decode(trim($reg["nombres"]).', Bienvenido a Cash-Flag, tu comunidad de beneficios!!!');
+	$cabeceras = 'Content-type: text/html;';
+	if ($_SERVER["HTTP_HOST"]!='localhost') {
+		mail($correo,$asunto,$mensaje,$cabeceras);
+	}
+}
+
+function recargapremiumdolar($link,$idsocio,$email,$telefono,$nombres,$apellidos) {
+	$query = "select * from prepago where nombres='".trim($nombres)."' and apellidos='".trim($apellidos)."' and telefono='".trim($telefono)."' and email='".trim($email)."' and id_proveedor=3 and moneda='dolar'";
+	$result = mysqli_query($link, $query);
+	if ($row = mysqli_fetch_array($result)) {
+		$tarjetaexiste = true;
+		$card = $row["card"];
+		$saldoant = $row["saldo"];
+
+		$fecha = date("Y-m-d");
+		$tipotransaccion = '01';
+		$tasadolarbs = 1.00;
+		$tasadolarcripto = 1.00;
+		
+		$query = "INSERT INTO prepago_transacciones (idsocio, idproveedor, fecha, tipotransaccion, tipomoneda, montobs, montodolares, montocripto, tasadolarbs, tasadolarcripto, documento, origen, status, card) VALUES (".$idsocio.",3,'".$fecha."','".$tipotransaccion."','dolar',0 ,1 ,0 ,".$tasadolarbs.",".$tasadolarcripto.",'0000','registro','Confirmada','".$card."')";
+		if ($result = mysqli_query($link,$query)) {
+			$saldo = $saldoant + 1;
+			$query = "UPDATE prepago SET saldo=".$saldo." WHERE card='".trim($card)."'";
+			if ($result = mysqli_query($link,$query)) {
+				$respuesta = '{"exito":"SI","mensaje":"Transacción exitosa."}';	
+			} else {
+				$respuesta = '{"exito":"NO","mensaje":"La tarjeta no pudo recargarse por favor comuniquese con soporte técnico"}';
+			}
+		} else {
+			$respuesta = '{"exito":"NO","mensaje":"La tarjeta no pudo recargarse por favor comuniquese con soporte técnico"}';
+		}
+	} else {
+		$respuesta = '{"exito":"NO","mensaje":"La tarjeta no pudo recargarse por favor comuniquese con soporte técnico"}';
+	}
+}
+
 ?>

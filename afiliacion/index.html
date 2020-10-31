@@ -47,6 +47,25 @@
 					<span class="etiq">Tel. celular (pais+prefijo+número):</span>
 					<input id="telefono" class="campo" type="text" size="50" maxlength="12" pattern="[0-9]{12}" title="Sólo se permiten números" onchange="validanumero()" />
 				</div>
+				<!-- Términos y condiciones -->
+				<div id="div6" style="margin: 20px 20px; 0">
+					<h3 style="text-align: center; margin: 0 auto 10px;"><u>Términos y condiciones</u></h3>
+					<div>
+						<p style="text-align: justify; margin: 0 auto 10px;"><input id="promociones" type="checkbox">
+							Estoy de acuerdo en que Cash-Flag y sus comercios afiliados me envíen comunicaciones frecuentemente sin que llegue a considerarlo spam.
+						</p>
+						<p style="text-align: justify; margin: 0 auto 10px;"><input id="premium" type="checkbox">
+							Tengo conocimiento que los productos PREMIUM son opcionales y que los gastos relacionados con tales productos serán cubiertos por mí.
+						</p>
+						<p style="text-align: justify; margin: 0 auto 10px;"><input id="cargos" type="checkbox">
+							Tengo conocimiento que las distintas plataformas para realizar recargas o compras en Cash-Flag pueden cobrar comisiones independientes y que Cash-Flag no tiene ninguna relación ni poder de negociación sobre estos cargos.
+						</p>
+						<p style="text-align: justify; margin: 0 auto 10px;"><input id="comision" type="checkbox">
+							Estoy de acuerdo que el monto de la comisión que cobra Cash-Flag por el uso de los productos PREMIUM es del 3% (*) del monto de la transacción y se cobra una sóla vez al momento de la recarga o compra.<br/><br/>
+							(*) También estoy consciente de que este porcentaje podrá ser revisado y se me notificará adecuadamente cuando esto ocurra.
+						</p>
+					</div>
+				</div>
 				<div class="btns">
 					<button id="btnemail" onclick="buscasocio()" style="width: 10em;">Buscar</button>
 					<button id="btnenviar" onclick="enviar()" style="width: 10em;">Enviar</button>
@@ -74,6 +93,7 @@
 				div3.style.display = 'none';
 				div4.style.display = 'none';
 				div5.style.display = 'none';
+				div6.style.display = 'none';
 				btnemail.style.display = 'inline-block';
 
 				document.getElementById("email").focus();
@@ -111,6 +131,11 @@
 					alert("El campo teléfono no puede quedar en blanco");
 					vacios++;
 					campo = "telefono";
+				}
+				if (!document.getElementById("promociones").checked || !document.getElementById("premium").checked || !document.getElementById("cargos").checked || !document.getElementById("comision").checked) {
+					alert("Debe aceptar todos los términos y condiciones del servicio para completar el registro.")
+					vacios++;
+					campo = "promociones";
 				}
 				if (vacios>0) { continuar = false; }
 				if (continuar) { 
@@ -175,6 +200,7 @@
 								div3.style.display = 'flex';
 								div4.style.display = 'flex';
 								div5.style.display = 'flex';
+								div6.style.display = 'block';
 								btnenviar.style.display = 'inline-block';
 							}
 						}
