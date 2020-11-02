@@ -323,7 +323,7 @@ function generatarjetaAE($post, $link) {
     }
 }
 
-function generatarjetadolar($pos, $link){
+function generatarjetadolar($post, $link){
     // Asignación de variables
     $nombres   = $post['nombres'];
     $apellidos = $post['apellidos'];
@@ -436,7 +436,7 @@ function mensajebienvenida($reg) {
 	$mensaje = utf8_decode('Hola '.trim($reg["nombres"]).',<br/><br/>');
 	$mensaje .= utf8_decode('¡Gracias por querer formar parte de nuestra comunidad!<br/><br/>');
 
-	$mensaje .= utf8_decode('Queremos conocerte un poco más y ofrecerte premios, promociones o productos/servicios especialmente diseñados para ti, pero necesitamos que nos brindes alguna información que nos ayudará a prestarte un mejor servicio, innovar en nuestros premios y hacerte la vida mucho más fácil y gratificante, además desde ya comenzaras a ganar, luego de completar <a href="https://app.cash-flag.com/registro/index.html?idp='.$_POST['id_proveedor'].'&ids='.$reg["id"].'">este formulario</a> recibirás un premio de bienvenida.<br/><br/>');
+	$mensaje .= utf8_decode('Queremos conocerte un poco más y ofrecerte premios, promociones o productos/servicios especialmente diseñados para ti, pero necesitamos que nos brindes alguna información que nos ayudará a prestarte un mejor servicio, innovar en nuestros premios y hacerte la vida mucho más fácil y gratificante, además desde ya comenzaras a ganar, luego de completar <a href="https://app.cash-flag.com/registro/index.html?idp='.$reg["idproveedor"].'&ids='.$reg["id"].'">este formulario</a> recibirás un premio de bienvenida.<br/><br/>');
 
 	$mensaje .= utf8_decode('<b>Te garantizamos que tu información será guardada celosamente y nunca será compartida con ningún tercero sin tu consentimiento y te aseguramos que siempre cumpliremos con las Leyes vigentes en lo relacionado al tratamiento de tus datos personales.</b><br/><br/>');
 
@@ -449,9 +449,9 @@ function mensajebienvenida($reg) {
 
 	$asunto = utf8_decode(trim($reg["nombres"]).', Bienvenido a Cash-Flag, tu comunidad de beneficios!!!');
 	$cabeceras = 'Content-type: text/html;';
-	if ($_SERVER["HTTP_HOST"]!='localhost') {
+	// if ($_SERVER["HTTP_HOST"]!='localhost') {
 		mail($correo,$asunto,$mensaje,$cabeceras);
-	}
+	// }
 }
 
 function recargapremiumdolar($link,$idsocio,$email,$telefono,$nombres,$apellidos) {
