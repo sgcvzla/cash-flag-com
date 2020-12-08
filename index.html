@@ -133,12 +133,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<a style="display: inline-block; margin-top: -0.15em; margin-right: 3em;" href="#" onclick="actualizaidioma(1)">
 						<img src="img/united_states_flag.png" style="width: 2.4em;" >
 					</a>
+					<!-- Superhero Button -->
+					<script src="https://unpkg.com/@aeternity/superhero-utils@0.5.1/dist/index.js"></script>
+					<div style="margin-top: -0.15em;">
+						<div class="my-button">Donar</div>
+						<script type="text/javascript">
+							superheroUtils.createButton('.my-button', {
+								size: 'small',
+								account: 'cashflag.chain',
+								url: 'https://www.cash-flag.com',
+							});
+						</script>
+					</div>
+					<!-- 					
 					<div style="height: 36px; width: 140px; overflow: hidden;">
 	 					<a class="superhero-tip-button" data-size="small" data-account="cashflag.chain">
 						  Donate
 						</a>
 						<script src="https://superhero.com/buttons/widget.js"></script>
 					</div>
+					-->
 				<!-- </div> -->
 			</div>
 		</div>
