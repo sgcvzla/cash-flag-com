@@ -74,7 +74,9 @@
 			</div>
 		</div>
 		<script>
-			var nombres="", apellidos="", telefono="", email="", idproveedor=3, datos = new FormData();
+			var nombres="", apellidos="", telefono="", email="", idproveedor=3, idcomercio=1, datos = new FormData();
+			// var servidor = "pruebas.cash-flag.com";
+			var servidor = "app.cash-flag.com";
 
 			// limpia el formulario
 			function limpiar() {
@@ -163,6 +165,7 @@
 					datos.append("telefono", document.getElementById("telefono").value);
 					datos.append("email", document.getElementById("email").value);
 					datos.append("idproveedor", idproveedor);
+					datos.append("idcomercio", idcomercio);
 					datos.append("secretkey", prKey);
 					datos.append("account", pbKey);
 
@@ -173,12 +176,13 @@
 							if (respuesta.exito == 'SI') {
 								alert(respuesta.mensaje);
 								limpiar()
+								window.location.replace("https://"+servidor);
 							} else {
 								alert(respuesta.mensaje);
 							}
 						}
 					};
-					xmlhttp.open("POST", "../php/datosafiliacioncomercio.php", false);
+					xmlhttp.open("POST", "https://"+servidor+"/php/datosafiliacioncomercio.php", false);
 					xmlhttp.send(datos);
 				}
 			}
@@ -205,7 +209,7 @@
 							}
 						}
 					};
-					xmlhttp.open("GET", "../php/buscasocios.php?email="+document.getElementById("email").value, true);
+					xmlhttp.open("GET", "https://"+servidor+"/php/buscasocios.php?email="+document.getElementById("email").value, true);
 					xmlhttp.send();
 				}
 			}

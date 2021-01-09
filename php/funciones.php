@@ -449,9 +449,19 @@ function mensajebienvenida($reg) {
 
 	$asunto = utf8_decode(trim($reg["nombres"]).', Bienvenido a Cash-Flag, tu comunidad de beneficios!!!');
 	$cabeceras = 'Content-type: text/html;';
+
+    // $cabeceras = 'Content-type: text/html'."\r\n";
+    // $cabeceras .= 'From: Cash-Flag <info@cash-flag.com>';
+    
 	// if ($_SERVER["HTTP_HOST"]!='localhost') {
-		mail($correo,$asunto,$mensaje,$cabeceras);
+		$ret = mail($correo,$asunto,$mensaje,$cabeceras);
 	// }
+
+    $a = fopen('log.html','w+');
+    fwrite($a,$asunto);
+    fwrite($a,'-');
+    fwrite($a,$mensaje);
+    if($ret) { fwrite($a,'-true'); } else { fwrite($a,'-false'); }
 }
 
 function recargapremiumdolar($link,$idsocio,$email,$telefono,$nombres,$apellidos) {

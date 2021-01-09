@@ -1,5 +1,6 @@
-<?php 
+<?php
 header('Content-Type: application/json');
+// include_once("./cash-flag-email.php");
 include_once("../_config/conexion.php");
 include_once("./funciones.php");
 
@@ -10,9 +11,11 @@ if($result = mysqli_query($link, $query)) {
     if ($row = mysqli_fetch_array($result)) {
         $id=$row["id"];
         $socio = 1;
+        $archivojson = "../registro/registro.json";
         mensajebienvenida($row);
         generatarjetaAE($_POST, $link);
         generatarjetadolar($_POST, $link);
+        cupondebienvenida($link,1,$_POST["email"],$_POST["telefono"],$_POST["nombres"],$_POST["apellidos"],$archivojson,$_POST["idproveedor"],$id,$idcomercio);
 	    $respuesta = '{"exito":"SI",';
         $respuesta .= '"mensaje":"Registro exitoso"}';
     } else {
